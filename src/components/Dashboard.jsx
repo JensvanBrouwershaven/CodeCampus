@@ -12,7 +12,7 @@ const Dashboard = ({ courseData }) => {
 
     if (activeTab === 'all') {
       return courseData;
-    } else if (actieTab === 'beginner') {
+    } else if (activeTab === 'beginner') {
       return courseData.filter((course) => course.level === 'Beginner');
     } else if (actieTab === 'gevorderd') {
       return courseData.filter((course) => course.level === 'Gevorderd');
