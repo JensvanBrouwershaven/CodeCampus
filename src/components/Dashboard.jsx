@@ -14,7 +14,7 @@ const Dashboard = ({ courseData }) => {
       return courseData;
     } else if (activeTab === 'beginner') {
       return courseData.filter((course) => course.level === 'Beginner');
-    } else if (actieTab === 'gevorderd') {
+    } else if (activeTab === 'gevorderd') {
       return courseData.filter((course) => course.level === 'Gevorderd');
     } else if (actieTab === 'populair') {
       return [...courseData].sort((a, b) => b.views - a.views);
