@@ -6,21 +6,34 @@ import Statistics from './Statistics';
 
 const Dashboard = ({ courseData }) => {
   const [activeTab, setActiveTab] = useState('all');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const filteredCourses = () => {
     if (!courseData || !Array.isArray(courseData)) return [];
 
-    if (activeTab === 'all') {
-      return courseData;
-    } else if (activeTab === 'beginner') {
-      return courseData.filter((course) => course.level === 'Beginner');
+    let filtered = courseData;
+
+    if (activeTab === 'beginner') {
+      filtered = filtered.filter((course) => course.level === 'Beginner');
     } else if (activeTab === 'gevorderd') {
-      return courseData.filter((course) => course.level === 'Gevorderd');
+      filtered = filtered.filter((course) => course.level === 'Gevorderd');
     } else if (activeTab === 'populair') {
-      return [...courseData].sort((a, b) => b.views - a.views);
+      filtered = [...filtered].sort((a, b) => b.views - a.views);
     }
-    return courseData;
+
+    if (searchTerm.trim() !== '') {
+      const term = searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (course) =>
+          course.title.toLowerCase().includes(term) ||
+          course.description.toLowerCase().includes(term)
+      );
+    }
+
+    return filtered;
   };
+
+  const filtered = filteredCourses();
 
   return (
     <section className='dashboard'>
@@ -55,6 +68,14 @@ const Dashboard = ({ courseData }) => {
 
       <div className='dashboard-content'>
         <section className='main-content'>
+          <input
+            type='text'
+            placeholder='Zoek op titel of trefwoord...'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className='searchBar'
+          />
+
           <h2>
             {activeTab === 'all'
               ? 'Alle Cursussen'
@@ -64,7 +85,12 @@ const Dashboard = ({ courseData }) => {
               ? 'Gevorderde Cursussen'
               : 'Meest Bekeken Cursussen'}
           </h2>
-          <CourseList courses={filteredCourses()} />
+
+          {filtered.length > 0 ? (
+            <CourseList courses={filtered} />
+          ) : (
+            <p className='no-results'>Geen cursussen gevonden.</p>
+          )}
         </section>
 
         <aside className='sidebar'>

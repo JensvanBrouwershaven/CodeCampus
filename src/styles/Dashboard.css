@@ -216,3 +216,11 @@
     grid-template-columns: 1fr;
   }
 }
+.searchBar{
+  width: 100%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  margin: 1rem 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
