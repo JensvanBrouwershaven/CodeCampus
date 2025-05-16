@@ -12,11 +12,13 @@ const Statistics = ({ courses }) => {
   };
 
   const getAverageRating = () => {
+    if (!isValidData) return 0;
     const avg =
       courses.reduce((total, course) => total + course.rating, 0) /
       courses.length;
     return avg.toFixed(1);
   };
+  
 
   return (
     <section className='statistics-widget'>

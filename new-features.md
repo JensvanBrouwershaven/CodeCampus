@@ -2,7 +2,7 @@
 
 ## Must-have User Stories
 
-### User Story 1: Zoekfunctionaliteit
+<!-- ### User Story 1: Zoekfunctionaliteit
 **Als gebruiker** wil ik **cursussen kunnen zoeken op titel of trefwoord** zodat ik **snel specifieke cursussen kan vinden zonder door de hele lijst te scrollen**.
 
 **Acceptatiecriteria:**
@@ -10,7 +10,7 @@
 - Bij het typen worden resultaten direct gefilterd (zonder pagina te verversen)
 - Zoeken werkt op cursustitel en beschrijving
 - Als er geen resultaten zijn, wordt een melding getoond
-- De zoekfunctie werkt in combinatie met eventuele actieve filters
+- De zoekfunctie werkt in combinatie met eventuele actieve filters -->
 
 ### User Story 2: Sorteeropties
 **Als gebruiker** wil ik **cursussen kunnen sorteren op verschillende criteria** zodat ik **ze kan ordenen op een manier die voor mij relevant is**.
@@ -32,7 +32,7 @@
 
 ### User Story 4: Filtering op categorieën
 **Als gebruiker** wil ik **cursussen kunnen filteren op categorieën** zodat ik **alleen cursussen zie die relevant zijn voor een specifiek onderwerp**.
-
+    
 **Acceptatiecriteria:**
 - Er is een sectie/component waar categorieën worden getoond
 - Meerdere categorieën kunnen tegelijk geselecteerd worden
