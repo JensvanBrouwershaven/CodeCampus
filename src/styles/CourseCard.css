@@ -163,3 +163,11 @@
     height: 160px;
   }
 }
+.course-card.clickable {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.course-card.clickable:hover {
+  transform: scale(1.02);
+}
