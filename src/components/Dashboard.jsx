@@ -7,6 +7,7 @@ import Statistics from './Statistics';
 const Dashboard = ({ courseData }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOption, setSortOption] = useState('populariteit');
 
   const filteredCourses = () => {
     if (!courseData || !Array.isArray(courseData)) return [];
@@ -17,8 +18,6 @@ const Dashboard = ({ courseData }) => {
       filtered = filtered.filter((course) => course.level === 'Beginner');
     } else if (activeTab === 'gevorderd') {
       filtered = filtered.filter((course) => course.level === 'Gevorderd');
-    } else if (activeTab === 'populair') {
-      filtered = [...filtered].sort((a, b) => b.views - a.views);
     }
 
     if (searchTerm.trim() !== '') {
@@ -28,6 +27,21 @@ const Dashboard = ({ courseData }) => {
           course.title.toLowerCase().includes(term) ||
           course.description.toLowerCase().includes(term)
       );
+    }
+
+    // Sorting
+    switch (sortOption) {
+      case 'populariteit':
+        filtered.sort((a, b) => b.views - a.views);
+        break;
+      case 'rating':
+        filtered.sort((a, b) => b.rating - a.rating);
+        break;
+      case 'duur':
+        filtered.sort((a, b) => a.duration - b.duration); // shortest first
+        break;
+      default:
+        break;
     }
 
     return filtered;
@@ -75,6 +89,19 @@ const Dashboard = ({ courseData }) => {
             onChange={(e) => setSearchTerm(e.target.value)}
             className='searchBar'
           />
+
+          <div className='sort-dropdown'>
+            <label htmlFor='sorteren'>Sorteer op:</label>
+            <select
+              id='sorteren'
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+            >
+              <option value='populariteit'>Populariteit</option>
+              <option value='rating'>Rating</option>
+              <option value='duur'>Duur</option>
+            </select>
+          </div>
 
           <h2>
             {activeTab === 'all'

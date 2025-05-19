@@ -5,7 +5,7 @@ export const courses = [
     description:
       'Leer de basis van JavaScript programmeren. Ideaal voor absolute beginners die willen starten met webontwikkeling.',
     level: 'Beginner',
-    duration: '10 uur',
+    duration: 10,
     instructor: 'Jan Jansen',
     videoUrl: 'https://www.youtube.com/watch?v=W6NZfCO5SIk',
     imageUrl: 'https://img.youtube.com/vi/W6NZfCO5SIk/maxresdefault.jpg',
@@ -20,7 +20,7 @@ export const courses = [
     description:
       'Stap voor stap React leren. Deze cursus behandelt componenten, props, state en nog veel meer fundamentele React concepten.',
     level: 'Beginner',
-    duration: '12 uur',
+    duration: 12,
     instructor: 'Petra Peters',
     videoUrl: 'https://www.youtube.com/watch?v=SqcY0GlETPk',
     imageUrl: 'https://img.youtube.com/vi/SqcY0GlETPk/maxresdefault.jpg',
@@ -50,7 +50,7 @@ export const courses = [
     description:
       'Data-analyse met Python en pandas. Visualiseer data, maak voorspellende modellen en duik in machine learning basics.',
     level: 'Gevorderd',
-    duration: '20 uur',
+    duration: 20,
     instructor: 'Sophie King',
     videoUrl: 'https://www.youtube.com/watch?v=r-uOLxNrNk8',
     imageUrl: 'https://img.youtube.com/vi/r-uOLxNrNk8/maxresdefault.jpg',
@@ -65,7 +65,7 @@ export const courses = [
     description:
       'Alles over moderne HTML en CSS. Leer responsive design, flexbox, grid en CSS-animaties in deze complete masterclass.',
     level: 'Beginner',
-    duration: '8 uur',
+    duration: 8,
     instructor: 'Lisa Johnson',
     videoUrl: 'https://www.youtube.com/watch?v=G3e-cpL7ofc',
     imageUrl: 'https://img.youtube.com/vi/G3e-cpL7ofc/maxresdefault.jpg',
@@ -80,7 +80,7 @@ export const courses = [
     description:
       'Java van basis tot gevorderd. Leer over OOP, exception handling, collections en multithreading in deze uitgebreide cursus.',
     level: 'Gemiddeld',
-    duration: '25 uur',
+    duration: 25,
     instructor: 'Robert de Vries',
     videoUrl: 'https://www.youtube.com/watch?v=eIrMbAQSU34',
     imageUrl: 'https://img.youtube.com/vi/eIrMbAQSU34/maxresdefault.jpg',
@@ -95,7 +95,7 @@ export const courses = [
     description:
       'Efficiënt samenwerken met versiebeheer. Leer branching strategieën, conflictoplossing en hoe je samenwerkt in grotere teams.',
     level: 'Gemiddeld',
-    duration: '6 uur',
+    duration: 6,
     instructor: 'Tim Taylor',
     videoUrl: 'https://www.youtube.com/watch?v=RGOj5yH7evk',
     imageUrl: 'https://img.youtube.com/vi/RGOj5yH7evk/maxresdefault.jpg',
@@ -110,7 +110,7 @@ export const courses = [
     description:
       'Een complete website bouwen van frontend tot backend. Verbind React met Node.js en MongoDB om volledige webapplicaties te bouwen.',
     level: 'Gevorderd',
-    duration: '30 uur',
+    duration: 30,
     instructor: 'Sarah Davis',
     videoUrl: 'https://www.youtube.com/watch?v=nu_pCVPKzTk',
     imageUrl: 'https://img.youtube.com/vi/nu_pCVPKzTk/maxresdefault.jpg',

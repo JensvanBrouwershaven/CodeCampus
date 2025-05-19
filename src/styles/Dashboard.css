@@ -224,3 +224,18 @@
   border-radius: 8px;
   border: 1px solid #ccc;
 }
+.sort-dropdown {
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sort-dropdown label {
+  font-weight: bold;
+}
+
+.sort-dropdown select {
+  padding: 0.4rem;
+  border-radius: 6px;
+}
