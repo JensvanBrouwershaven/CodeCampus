@@ -8,6 +8,7 @@ const Dashboard = ({ courseData }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('populariteit');
+  const [dropdownOpen, setDropdownOpen] = useState(false); // New: dropdown toggle
 
   const filteredCourses = () => {
     if (!courseData || !Array.isArray(courseData)) return [];
@@ -31,14 +32,14 @@ const Dashboard = ({ courseData }) => {
 
     // Sorting
     switch (sortOption) {
-      case 'populariteit':
+      case 'Populariteit':
         filtered.sort((a, b) => b.views - a.views);
         break;
-      case 'rating':
+      case 'Rating':
         filtered.sort((a, b) => b.rating - a.rating);
         break;
-      case 'duur':
-        filtered.sort((a, b) => a.duration - b.duration); // shortest first
+      case 'Duur':
+        filtered.sort((a, b) => a.duration - b.duration);
         break;
       default:
         break;
@@ -53,28 +54,16 @@ const Dashboard = ({ courseData }) => {
     <section className='dashboard'>
       <header className='dashboard-header'>
         <nav className='tab-buttons'>
-          <button
-            className={activeTab === 'all' ? 'active' : ''}
-            onClick={() => setActiveTab('all')}
-          >
+          <button className={activeTab === 'all' ? 'active' : ''} onClick={() => setActiveTab('all')}>
             Alle Cursussen
           </button>
-          <button
-            className={activeTab === 'beginner' ? 'active' : ''}
-            onClick={() => setActiveTab('beginner')}
-          >
+          <button className={activeTab === 'beginner' ? 'active' : ''} onClick={() => setActiveTab('beginner')}>
             Voor Beginners
           </button>
-          <button
-            className={activeTab === 'gevorderd' ? 'active' : ''}
-            onClick={() => setActiveTab('gevorderd')}
-          >
+          <button className={activeTab === 'gevorderd' ? 'active' : ''} onClick={() => setActiveTab('gevorderd')}>
             Gevorderd
           </button>
-          <button
-            className={activeTab === 'populair' ? 'active' : ''}
-            onClick={() => setActiveTab('populair')}
-          >
+          <button className={activeTab === 'populair' ? 'active' : ''} onClick={() => setActiveTab('populair')}>
             Meest Bekeken
           </button>
         </nav>
@@ -90,17 +79,28 @@ const Dashboard = ({ courseData }) => {
             className='searchBar'
           />
 
+          {/* 🔽 Custom Styled Sort Dropdown */}
           <div className='sort-dropdown'>
-            <label htmlFor='sorteren'>Sorteer op:</label>
-            <select
-              id='sorteren'
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-            >
-              <option value='populariteit'>Populariteit</option>
-              <option value='rating'>Rating</option>
-              <option value='duur'>Duur</option>
-            </select>
+            <button className='sort-button' onClick={() => setDropdownOpen(!dropdownOpen)}>
+              Sorteer op: {sortOption}
+              <span className={`arrow ${dropdownOpen ? 'up' : 'down'}`} />
+            </button>
+            {dropdownOpen && (
+              <ul className='sort-options'>
+                {['populariteit', 'rating', 'duur'].map((option) => (
+                  <li
+                    key={option}
+                    className={sortOption === option ? 'active' : ''}
+                    onClick={() => {
+                      setSortOption(option);
+                      setDropdownOpen(false);
+                    }}
+                  >
+                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           <h2>

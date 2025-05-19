@@ -45,6 +45,8 @@ body {
   box-shadow: var(--shadow);
   position: relative;
   overflow: hidden;
+  animation: fadeinnormal 0.5s ease-in-out;
+
 }
 
 .app-header::before {
@@ -132,5 +134,28 @@ body {
   }
   .brand-tagline {
     font-size: 1rem;
+  }
+}
+
+/* Animations!!!---------------------------------------------------------------------- */
+
+@keyframes fadeinnormal {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slidedown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
   }
 }

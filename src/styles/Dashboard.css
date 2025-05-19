@@ -45,6 +45,7 @@
 .dashboard-content {
   display: flex;
   padding: 25px;
+  animation: fadeinnormal 0.5s ease-in-out;
 }
 
 .main-content {
@@ -83,6 +84,8 @@
   padding: 20px;
   margin-bottom: 25px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  animation: slideup 0.4s ease-in-out;
+  
 }
 
 .popular-courses-widget h3,
@@ -223,6 +226,10 @@
   margin: 1rem 0;
   border-radius: 8px;
   border: 1px solid #ccc;
+  transition: all 0.5s;
+}
+.searchBar:hover{
+  transform: scale(1.04);
 }
 .sort-dropdown {
   margin: 1rem 0;
@@ -238,4 +245,107 @@
 .sort-dropdown select {
   padding: 0.4rem;
   border-radius: 6px;
+}
+.fade-course {
+  animation: fadeinnormal 0.5s ease-in-out;
+}
+.sort-dropdown {
+  position: relative;
+  display: inline-block;
+  margin: 15px 0;
+}
+
+.sort-button {
+  background: transparent;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+}
+
+.sort-button:hover {
+  background: #f0f0f0;
+}
+
+.arrow {
+  margin-left: 8px;
+  display: inline-block;
+  border: solid black;
+  border-width: 0 1.5px 1.5px 0;
+  padding: 3px;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+
+.arrow.down {
+  transform: rotate(45deg);
+}
+
+.arrow.up {
+  transform: rotate(-135deg);
+}
+
+.sort-options {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  animation: slideDown 0.4s ease forwards;
+  z-index: 10;
+}
+
+.sort-options li {
+  list-style: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.sort-options li:hover {
+  background-color: #f2f2f2;
+}
+
+.sort-options li.active {
+  font-weight: bold;
+  background-color: #eaeaea;
+}
+
+/* Animations!!--------------------------------------------------------------------------------------------------------- */
+@keyframes fadeinnormal {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes slideup {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
+}
+@keyframes slidedown {
+  0% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0%);
+    opacity: 1;
+  }
 }
