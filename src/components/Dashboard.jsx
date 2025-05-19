@@ -4,16 +4,22 @@ import CourseList from './CourseList';
 import PopularCourses from './PopularCourses';
 import Statistics from './Statistics';
 
+const SORT_OPTIONS = [
+  { value: 'populariteit', label: 'Populariteit' },
+  { value: 'rating', label: 'Rating' },
+  { value: 'duur', label: 'Duur' }
+];
+
 const Dashboard = ({ courseData }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('populariteit');
-  const [dropdownOpen, setDropdownOpen] = useState(false); // New: dropdown toggle
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const filteredCourses = () => {
     if (!courseData || !Array.isArray(courseData)) return [];
 
-    let filtered = courseData;
+    let filtered = [...courseData];
 
     if (activeTab === 'beginner') {
       filtered = filtered.filter((course) => course.level === 'Beginner');
@@ -30,15 +36,14 @@ const Dashboard = ({ courseData }) => {
       );
     }
 
-    // Sorting
     switch (sortOption) {
-      case 'Populariteit':
+      case 'populariteit':
         filtered.sort((a, b) => b.views - a.views);
         break;
-      case 'Rating':
+      case 'rating':
         filtered.sort((a, b) => b.rating - a.rating);
         break;
-      case 'Duur':
+      case 'duur':
         filtered.sort((a, b) => a.duration - b.duration);
         break;
       default:
@@ -79,24 +84,26 @@ const Dashboard = ({ courseData }) => {
             className='searchBar'
           />
 
-          {/* 🔽 Custom Styled Sort Dropdown */}
+          {/* Custom Styled Sort Dropdown */}
           <div className='sort-dropdown'>
             <button className='sort-button' onClick={() => setDropdownOpen(!dropdownOpen)}>
-              Sorteer op: {sortOption}
+              Sorteer op: {
+                SORT_OPTIONS.find(option => option.value === sortOption)?.label
+              }
               <span className={`arrow ${dropdownOpen ? 'up' : 'down'}`} />
             </button>
             {dropdownOpen && (
               <ul className='sort-options'>
-                {['populariteit', 'rating', 'duur'].map((option) => (
+                {SORT_OPTIONS.map(({ value, label }) => (
                   <li
-                    key={option}
-                    className={sortOption === option ? 'active' : ''}
+                    key={value}
+                    className={sortOption === value ? 'active' : ''}
                     onClick={() => {
-                      setSortOption(option);
+                      setSortOption(value);
                       setDropdownOpen(false);
                     }}
                   >
-                    {option.charAt(0).toUpperCase() + option.slice(1)}
+                    {label}
                   </li>
                 ))}
               </ul>
