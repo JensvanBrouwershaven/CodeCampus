@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import '../styles/Dashboard.css';
 import CourseList from './CourseList';
 import PopularCourses from './PopularCourses';
@@ -7,14 +7,27 @@ import Statistics from './Statistics';
 const SORT_OPTIONS = [
   { value: 'populariteit', label: 'Populariteit' },
   { value: 'rating', label: 'Rating' },
-  { value: 'duur', label: 'Duur' }
+  { value: 'duur', label: 'Duur' },
+  { value: 'favorieten', label: 'Favorieten' } // ✅ New Option
 ];
+
+const getFavoriteCourseIds = () => {
+  return document.cookie
+    .split('; ')
+    .filter(cookie => cookie.startsWith('favorite_') && cookie.split('=')[1] === 'true')
+    .map(cookie => decodeURIComponent(cookie.split('=')[0].replace('favorite_', '')));
+};
 
 const Dashboard = ({ courseData }) => {
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOption, setSortOption] = useState('populariteit');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [favoriteIds, setFavoriteIds] = useState([]);
+
+  useEffect(() => {
+    setFavoriteIds(getFavoriteCourseIds());
+  }, []);
 
   const filteredCourses = () => {
     if (!courseData || !Array.isArray(courseData)) return [];
@@ -22,9 +35,9 @@ const Dashboard = ({ courseData }) => {
     let filtered = [...courseData];
 
     if (activeTab === 'beginner') {
-      filtered = filtered.filter((course) => course.level === 'Beginner');
+      filtered = filtered.filter(course => course.level === 'Beginner');
     } else if (activeTab === 'gevorderd') {
-      filtered = filtered.filter((course) => course.level === 'Gevorderd');
+      filtered = filtered.filter(course => course.level === 'Gevorderd');
     }
 
     if (searchTerm.trim() !== '') {
@@ -37,6 +50,12 @@ const Dashboard = ({ courseData }) => {
     }
 
     switch (sortOption) {
+      case 'favorieten':
+        filtered = filtered.filter(course =>
+          favoriteIds.includes(course.id?.toString()) ||
+          favoriteIds.includes(course.title?.replace(/\s+/g, '_'))
+        );
+        break;
       case 'populariteit':
         filtered.sort((a, b) => b.views - a.views);
         break;
@@ -84,7 +103,7 @@ const Dashboard = ({ courseData }) => {
             className='searchBar'
           />
 
-          {/* Custom Styled Sort Dropdown */}
+          {/* Sort Dropdown with Favorieten Option */}
           <div className='sort-dropdown'>
             <button className='sort-button' onClick={() => setDropdownOpen(!dropdownOpen)}>
               Sorteer op: {
@@ -111,7 +130,9 @@ const Dashboard = ({ courseData }) => {
           </div>
 
           <h2>
-            {activeTab === 'all'
+            {sortOption === 'favorieten'
+              ? 'Favoriete Cursussen'
+              : activeTab === 'all'
               ? 'Alle Cursussen'
               : activeTab === 'beginner'
               ? 'Cursussen voor Beginners'
