@@ -218,6 +218,22 @@
   .stats-container {
     grid-template-columns: 1fr;
   }
+  .app-header{
+    max-height: 8rem;
+  }
+  .logo-container{
+    margin: -1.5rem 0 0 0;
+  }
+  .tab-buttons{
+    flex-direction: row;
+  }
+  .tab-buttons button {
+    max-width: 5.5rem;
+    font-size: 0.7rem;
+  }
+  .dashboard-header{
+    margin: -1rem 0 0 0;
+  }
 }
 .searchBar{
   width: 100%;
