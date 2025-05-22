@@ -11,6 +11,8 @@ const SORT_OPTIONS = [
   { value: 'favorieten', label: 'Favorieten' }
 ];
 
+const LOCAL_STORAGE_KEY = 'dashboardPreferences';
+
 const getFavoriteCourseIds = () => {
   return document.cookie
     .split('; ')
@@ -26,9 +28,28 @@ const Dashboard = ({ courseData }) => {
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  // ✅ Laad voorkeuren bij eerste render
   useEffect(() => {
+    const savedPrefs = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    if (savedPrefs) {
+      setActiveTab(savedPrefs.activeTab || 'all');
+      setSearchTerm(savedPrefs.searchTerm || '');
+      setSortOption(savedPrefs.sortOption || 'populariteit');
+      setSelectedCategories(savedPrefs.selectedCategories || []);
+    }
     setFavoriteIds(getFavoriteCourseIds());
   }, []);
+
+  // ✅ Sla voorkeuren op bij wijzigingen
+  useEffect(() => {
+    const preferences = {
+      activeTab,
+      searchTerm,
+      sortOption,
+      selectedCategories
+    };
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(preferences));
+  }, [activeTab, searchTerm, sortOption, selectedCategories]);
 
   const allCategories = useMemo(() => {
     if (!courseData) return [];
@@ -85,6 +106,14 @@ const Dashboard = ({ courseData }) => {
   };
 
   const filtered = filteredCourses();
+
+  const resetPreferences = () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    setActiveTab('all');
+    setSearchTerm('');
+    setSortOption('populariteit');
+    setSelectedCategories([]);
+  };
 
   return (
     <section className='dashboard'>
@@ -162,10 +191,17 @@ const Dashboard = ({ courseData }) => {
               ))}
               {selectedCategories.length > 0 && (
                 <button className='clear-button' onClick={() => setSelectedCategories([])}>
-                  Wis alles
+                  Wis categorieën
                 </button>
               )}
             </div>
+          </div>
+
+          {/* ✅ Reset voorkeuren */}
+          <div style={{ marginTop: '1rem' }}>
+            <button className='clear-button' onClick={resetPreferences}>
+              Reset al mijn voorkeuren
+            </button>
           </div>
 
           <h2>
@@ -197,3 +233,4 @@ const Dashboard = ({ courseData }) => {
 };
 
 export default Dashboard;
+  
