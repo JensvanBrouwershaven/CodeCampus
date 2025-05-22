@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import '../styles/Dashboard.css';
 import CourseList from './CourseList';
 import PopularCourses from './PopularCourses';
@@ -8,7 +8,7 @@ const SORT_OPTIONS = [
   { value: 'populariteit', label: 'Populariteit' },
   { value: 'rating', label: 'Rating' },
   { value: 'duur', label: 'Duur' },
-  { value: 'favorieten', label: 'Favorieten' } // ✅ New Option
+  { value: 'favorieten', label: 'Favorieten' }
 ];
 
 const getFavoriteCourseIds = () => {
@@ -24,10 +24,16 @@ const Dashboard = ({ courseData }) => {
   const [sortOption, setSortOption] = useState('populariteit');
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
     setFavoriteIds(getFavoriteCourseIds());
   }, []);
+
+  const allCategories = useMemo(() => {
+    if (!courseData) return [];
+    return [...new Set(courseData.flatMap(course => course.categories))];
+  }, [courseData]);
 
   const filteredCourses = () => {
     if (!courseData || !Array.isArray(courseData)) return [];
@@ -46,6 +52,12 @@ const Dashboard = ({ courseData }) => {
         (course) =>
           course.title.toLowerCase().includes(term) ||
           course.description.toLowerCase().includes(term)
+      );
+    }
+
+    if (selectedCategories.length > 0) {
+      filtered = filtered.filter(course =>
+        selectedCategories.every(cat => course.categories.includes(cat))
       );
     }
 
@@ -103,7 +115,7 @@ const Dashboard = ({ courseData }) => {
             className='searchBar'
           />
 
-          {/* Sort Dropdown with Favorieten Option */}
+          {/* Sort Dropdown */}
           <div className='sort-dropdown'>
             <button className='sort-button' onClick={() => setDropdownOpen(!dropdownOpen)}>
               Sorteer op: {
@@ -127,6 +139,33 @@ const Dashboard = ({ courseData }) => {
                 ))}
               </ul>
             )}
+          </div>
+
+          {/* ✅ Category Filter */}
+          <div className='category-filter'>
+            <h3>Filter op categorieën:</h3>
+            <div className='category-buttons'>
+              {allCategories.map((category) => (
+                <button
+                  key={category}
+                  className={`category-button ${selectedCategories.includes(category) ? 'selected' : ''}`}
+                  onClick={() => {
+                    setSelectedCategories((prev) =>
+                      prev.includes(category)
+                        ? prev.filter((c) => c !== category)
+                        : [...prev, category]
+                    );
+                  }}
+                >
+                  {category}
+                </button>
+              ))}
+              {selectedCategories.length > 0 && (
+                <button className='clear-button' onClick={() => setSelectedCategories([])}>
+                  Wis alles
+                </button>
+              )}
+            </div>
           </div>
 
           <h2>

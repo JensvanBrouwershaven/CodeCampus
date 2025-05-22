@@ -333,6 +333,36 @@
   font-weight: bold;
   background-color: #eaeaea;
 }
+.category-filter {
+  margin: 1rem 0;
+}
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.category-button {
+  padding: 0.4rem 0.8rem;
+  background: #f0f0f0;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border: none;
+}
+.category-button.selected {
+  background: #3498db;
+  color: white;
+  border-color: #3498db;
+}
+.clear-button {
+  padding: 0.4rem 0.8rem;
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
 
 /* Animations!!--------------------------------------------------------------------------------------------------------- */
 @keyframes fadeinnormal {
