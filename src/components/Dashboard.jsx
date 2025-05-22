@@ -27,8 +27,7 @@ const Dashboard = ({ courseData }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
-
-  // ✅ Laad voorkeuren bij eerste render
+  
   useEffect(() => {
     const savedPrefs = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
     if (savedPrefs) {
@@ -40,7 +39,6 @@ const Dashboard = ({ courseData }) => {
     setFavoriteIds(getFavoriteCourseIds());
   }, []);
 
-  // ✅ Sla voorkeuren op bij wijzigingen
   useEffect(() => {
     const preferences = {
       activeTab,
