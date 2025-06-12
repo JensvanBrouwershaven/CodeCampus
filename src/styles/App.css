@@ -123,6 +123,7 @@ body {
   color: white;
 margin: 0 0 1rem 0;
 border-radius: var(--border-radius);
+animation: slidedown 0.5s ease-in-out;
 }
 
 .navbar-container {
@@ -154,8 +155,25 @@ border-radius: var(--border-radius);
 .navbar-links a:hover {
   text-decoration: underline;
 }
-
-
+.footer{
+  background: linear-gradient(135deg, #3a7bd5, #00d2ff);
+  padding: 1rem 2rem;
+  color: white;
+border-radius: var(--border-radius);
+  margin: 10rem 0 0 0;
+  display: flex;
+  justify-content: space-between;
+  animation: fadeinnormal 0.5s ease-in-out;
+}
+.Contact-Information{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 45vh;
+}
+.contactmainpage{
+  animation: fadeinnormal 0.5s ease-in-out;
+}
 /* Animaties */
 @keyframes fadeIn {
   from {
