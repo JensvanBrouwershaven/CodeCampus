@@ -4,6 +4,7 @@ import CourseList from '../components/CourseList';
 import { Link } from 'react-router-dom';
 import '../styles/App.css'
 import Navbar from '../components/Navigation';
+import Footer from '../components/Footer'
 
 const getFavoriteCourseIds = () => {
   return document.cookie
@@ -42,6 +43,7 @@ const ProfilePage = () => {
       ) : (
         <p className='no-favorites'>Je hebt nog geen favoriete cursussen.</p>
       )}
+      <Footer/>
     </main>
   );
 };
