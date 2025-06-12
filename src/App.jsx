@@ -1,12 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';  
 import Dashboard from './components/Dashboard';
 import { courses } from './data/coursesData.js';
 import './styles/App.css';
+import Navbar from './components/Navigation.jsx';
 
 function App() {
   const [courseData, setCourseData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  
 
   useEffect(() => {
     const fetchData = () => {
@@ -24,6 +26,7 @@ function App() {
 
   return (
     <main className='app'>
+        <Navbar />
       <header className='app-header'>
         <div className='logo-container'>
           <h1 className='brand-logo'>CodeCampus</h1>
