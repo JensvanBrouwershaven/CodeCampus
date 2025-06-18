@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 const Footer = () =>{
     return (
         <div className="navbar footer">
-            <div>
-        <p>Veel gestelde vragen</p>
+            <div className='navbar-links'>
+            <Link to='/faq'>Veel Gestelde Vragen</Link>
         </div>
         <div className='navbar-links'>
         <Link to='/contact'>Contact</Link>
