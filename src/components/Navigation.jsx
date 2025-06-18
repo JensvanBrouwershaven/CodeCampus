@@ -13,6 +13,9 @@ const Navbar = () => {
               <Link to='/profile'>Profiel</Link>
             </li>
           </ul>
+          <div className='navbar-links'>
+            <Link to='/help'>Help</Link>
+          </div>
         </div>
       </nav>
     );
