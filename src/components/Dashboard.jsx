@@ -3,7 +3,6 @@ import '../styles/Dashboard.css';
 import CourseList from './CourseList';
 import PopularCourses from './PopularCourses';
 import Statistics from './Statistics';
-import Footer from './Footer';
 
 const SORT_OPTIONS = [
   { value: 'populariteit', label: 'Populariteit' },
@@ -232,7 +231,6 @@ const Dashboard = ({ courseData }) => {
           <Statistics courses={courseData} />
         </aside>
       </div>
-      <Footer/>
     </section>
   );
 };

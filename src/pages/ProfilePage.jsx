@@ -1,39 +1,63 @@
 import { useEffect, useState } from 'react';
-import { courses } from '../data/coursesData'; // of waar je je data importeert
+import { courses } from '../data/coursesData';
 import CourseList from '../components/CourseList';
+import CourseCard from '../components/CourseCard';
 import { Link } from 'react-router-dom';
-import '../styles/App.css'
+import '../styles/App.css';
 import Navbar from '../components/Navigation';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
+
+const getCookie = (name) => {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+  return match ? decodeURIComponent(match[2]) : null;
+};
 
 const getFavoriteCourseIds = () => {
   return document.cookie
     .split('; ')
     .filter(cookie => cookie.startsWith('favorite_') && cookie.split('=')[1] === 'true')
-    .map(cookie => decodeURIComponent(cookie.split('=')[0].replace('favorite_', '')));
+    .map(cookie => cookie.split('=')[0].replace('favorite_', ''));
+};
+
+const getViewedCourseIds = () => {
+  return document.cookie
+    .split('; ')
+    .filter(cookie => cookie.startsWith('viewed_'))
+    .map(cookie => cookie.split('=')[0].replace('viewed_', ''));
 };
 
 const ProfilePage = () => {
   const [favoriteCourses, setFavoriteCourses] = useState([]);
+  const [viewedCourses, setViewedCourses] = useState([]);
 
   useEffect(() => {
     const favoriteIds = getFavoriteCourseIds();
-    const filtered = courses.filter(course =>
-      favoriteIds.includes(course.id?.toString()) ||
-      favoriteIds.includes(course.title?.replace(/\s+/g, '_'))
+    const filteredFavs = courses.filter(course =>
+      favoriteIds.includes(course.id?.toString())
     );
-    setFavoriteCourses(filtered);
+    setFavoriteCourses(filteredFavs);
+
+    const viewedIds = getViewedCourseIds();
+    const filteredViewed = courses
+      .filter(course => viewedIds.includes(course.id?.toString()))
+      .sort((a, b) => {
+        const aDate = new Date(getCookie(`viewed_${a.id}`));
+        const bDate = new Date(getCookie(`viewed_${b.id}`));
+        return bDate - aDate;
+      });
+
+    setViewedCourses(filteredViewed);
   }, []);
 
   return (
-    <main className='app'>
-        <Navbar/>
-      <nav className='breadcrumb'>
-      <div className='app-header'>
-      <h1>Mijn Profiel</h1>
-      </div>
-      </nav>
+    <main className="app">
+      <Navbar />
 
+      <nav className="breadcrumb">
+        <div className="app-header">
+          <h1>Mijn Profiel</h1>
+        </div>
+      </nav>
 
       {favoriteCourses.length > 0 ? (
         <>
@@ -41,9 +65,23 @@ const ProfilePage = () => {
           <CourseList courses={favoriteCourses} />
         </>
       ) : (
-        <p className='no-favorites'>Je hebt nog geen favoriete cursussen.</p>
+        <p className="no-favorites">Je hebt nog geen favoriete cursussen.</p>
       )}
-      <Footer/>
+
+      <hr />
+
+      <h2>Bekeken Cursussen ({viewedCourses.length})</h2>
+      {viewedCourses.length > 0 ? (
+        <div className="course-list">
+          {viewedCourses.map(course => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+      ) : (
+        <p className="no-viewed">Je hebt nog geen cursussen bekeken.</p>
+      )}
+
+      <Footer />
     </main>
   );
 };
