@@ -131,6 +131,7 @@
   font-size: 15px;
   font-weight: 500;
   transition: var(--transition);
+  margin: 2rem 0 0 0;
 }
 
 .course-button:hover {
