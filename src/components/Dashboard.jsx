@@ -12,6 +12,8 @@ const SORT_OPTIONS = [
   { value: 'favorieten', label: 'Favorieten' }
 ];
 
+const LOCAL_STORAGE_KEY = 'dashboardPreferences';
+
 const getFavoriteCourseIds = () => {
   return document.cookie
     .split('; ')
@@ -26,10 +28,35 @@ const Dashboard = ({ courseData }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [favoriteIds, setFavoriteIds] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [hasLoadedPrefs, setHasLoadedPrefs] = useState(false);
 
+  // Laad voorkeuren als courseData beschikbaar is
   useEffect(() => {
-    setFavoriteIds(getFavoriteCourseIds());
-  }, []);
+    if (!hasLoadedPrefs && courseData && courseData.length > 0) {
+      const savedPrefs = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+      if (savedPrefs) {
+        if (savedPrefs.activeTab) setActiveTab(savedPrefs.activeTab);
+        if (savedPrefs.searchTerm !== undefined) setSearchTerm(savedPrefs.searchTerm);
+        if (savedPrefs.sortOption) setSortOption(savedPrefs.sortOption);
+        if (Array.isArray(savedPrefs.selectedCategories)) setSelectedCategories(savedPrefs.selectedCategories);
+      }
+      setFavoriteIds(getFavoriteCourseIds());
+      setHasLoadedPrefs(true);
+    }
+  }, [courseData, hasLoadedPrefs]);
+
+  // Sla voorkeuren op bij wijzigingen
+  useEffect(() => {
+    if (hasLoadedPrefs) {
+      const preferences = {
+        activeTab,
+        searchTerm,
+        sortOption,
+        selectedCategories
+      };
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(preferences));
+    }
+  }, [activeTab, searchTerm, sortOption, selectedCategories, hasLoadedPrefs]);
 
   const allCategories = useMemo(() => {
     if (!courseData) return [];
@@ -87,6 +114,14 @@ const Dashboard = ({ courseData }) => {
 
   const filtered = filteredCourses();
 
+  const resetPreferences = () => {
+    localStorage.removeItem(LOCAL_STORAGE_KEY);
+    setActiveTab('all');
+    setSearchTerm('');
+    setSortOption('populariteit');
+    setSelectedCategories([]);
+  };
+
   return (
     <section className='dashboard'>
       <header className='dashboard-header'>
@@ -116,7 +151,6 @@ const Dashboard = ({ courseData }) => {
             className='searchBar'
           />
 
-          {/* Sort Dropdown */}
           <div className='sort-dropdown'>
             <button className='sort-button' onClick={() => setDropdownOpen(!dropdownOpen)}>
               Sorteer op: {
@@ -142,7 +176,6 @@ const Dashboard = ({ courseData }) => {
             )}
           </div>
 
-          {/* ✅ Category Filter */}
           <div className='category-filter'>
             <h3>Filter op categorieën:</h3>
             <div className='category-buttons'>
@@ -163,10 +196,16 @@ const Dashboard = ({ courseData }) => {
               ))}
               {selectedCategories.length > 0 && (
                 <button className='clear-button' onClick={() => setSelectedCategories([])}>
-                  Wis alles
+                  Wis categorieën
                 </button>
               )}
             </div>
+          </div>
+
+          <div style={{ marginTop: '1rem' }}>
+            <button className='clear-button' onClick={resetPreferences}>
+              Reset al mijn voorkeuren
+            </button>
           </div>
 
           <h2>
